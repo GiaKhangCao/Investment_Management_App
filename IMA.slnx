@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="docker-compose.yml" />
+  </Folder>
+  <Project Path="IMA/IMA.Shared/IMA.Shared.csproj" />
+  <Project Path="IMA/IMA.Web/IMA.Web.csproj" />
+  <Project Path="IMA/IMA/IMA.csproj" />
+</Solution>
