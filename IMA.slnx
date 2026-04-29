@@ -1,8 +1,13 @@
 <Solution>
   <Folder Name="/Solution Items/">
+    <File Path=".env" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
     <File Path="docker-compose.yml" />
   </Folder>
   <Project Path="IMA/IMA.Shared/IMA.Shared.csproj" />
   <Project Path="IMA/IMA.Web/IMA.Web.csproj" />
-  <Project Path="IMA/IMA/IMA.csproj" />
+  <Project Path="IMA/IMA/IMA.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
 </Solution>
