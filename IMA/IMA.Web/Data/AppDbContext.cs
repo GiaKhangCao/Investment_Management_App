@@ -7,7 +7,7 @@ namespace IMA.Web.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<Portfolio> Porforlios { get; set; }
+        public DbSet<Portfolio> Portfolios { get; set; }
         public DbSet<Investment> Investments { get; set; } 
         public DbSet<Transaction> Transactions { get; set; }
     }
