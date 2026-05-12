@@ -8,7 +8,8 @@
         public decimal quantity { get; set; }
         public decimal purchasePrice { get; set; }
         public DateTime purchaseDate { get; set; }
-        public int porfolioId { get; set; }
+        public int portfolioId { get; set; }
         public Portfolio? porfolio { get; set; } = null;
+        public List<Transaction> transactions { get; set; } = new();
     }
 }
