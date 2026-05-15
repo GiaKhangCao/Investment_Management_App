@@ -1,10 +1,11 @@
-﻿using IMA.Web.Data;
+﻿using IMA.Shared.Interfaces;
+using IMA.Web.Data;
 using IMA.Web.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMA.Web.Services
 {
-    public class PortfolioService
+    public class PortfolioService : IPortfolioService
     {
         private readonly AppDbContext _db;
         public PortfolioService(AppDbContext db)
@@ -21,7 +22,7 @@ namespace IMA.Web.Services
             await _db.SaveChangesAsync();
         }
 
-        public async Task DeleteAsynce(int id)
+        public async Task DeleteAsync(int id)
         {
             var portfolio = await _db.Portfolios.FindAsync(id);
             if (portfolio != null)

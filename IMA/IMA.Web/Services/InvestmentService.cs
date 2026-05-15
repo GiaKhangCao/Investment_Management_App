@@ -1,10 +1,11 @@
-﻿using IMA.Web.Data;
+﻿using IMA.Shared.Interfaces;
+using IMA.Web.Data;
 using IMA.Web.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMA.Web.Services
 {
-    public class InvestmentService
+    public class InvestmentService : IInvestmentService
     {
         private readonly AppDbContext _db;
         public InvestmentService(AppDbContext db)

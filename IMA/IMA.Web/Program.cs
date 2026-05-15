@@ -4,6 +4,7 @@ using IMA.Web.Data;
 using IMA.Web.Models;
 using IMA.Web.Services;
 using Microsoft.EntityFrameworkCore;
+using IMA.Shared.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,9 +18,9 @@ builder.Services.AddSingleton<IFormFactor, FormFactor>();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<PortfolioService>();
+builder.Services.AddScoped<IPortfolioService, PortfolioService>();
 
-builder.Services.AddScoped<InvestmentService>();
+builder.Services.AddScoped<IInvestmentService, InvestmentService>();
 
 var app = builder.Build();
 
