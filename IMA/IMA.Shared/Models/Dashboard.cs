@@ -19,4 +19,11 @@ namespace IMA.Shared.Models
         public string month { get; set; } = string.Empty;
         public decimal value { get; set; }
     }
+
+    public class Allocation
+    {
+        public decimal stockValu { get; set; }
+        public decimal ETFsValue { get; set; }
+        public decimal cashValue { get; set; }
+    }
 }
