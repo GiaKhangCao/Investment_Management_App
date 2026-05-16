@@ -7,8 +7,7 @@ namespace IMA.Shared.Interfaces
 {
     public interface IDashboard
     {
-        Task<IDashboard> GetSummaryAsync();
-        Task<List<MonthlyPerformance>> GethMonthlyPerformanceSync();
+        Task<DashboardSummary> GetSummaryAsync();
         Task<Allocation> GetAllocation();
     }
 }
