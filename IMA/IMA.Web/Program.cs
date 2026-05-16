@@ -5,6 +5,7 @@ using IMA.Web.Models;
 using IMA.Web.Services;
 using Microsoft.EntityFrameworkCore;
 using IMA.Shared.Interfaces;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IPortfolioService, PortfolioService>();
 
 builder.Services.AddScoped<IInvestmentService, InvestmentService>();
+
+builder.Services.AddScoped<IDashboard, DashboardService>();
+
+builder.Services.AddMudServices();
 
 var app = builder.Build();
 
