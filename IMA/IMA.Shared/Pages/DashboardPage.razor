@@ -1,15 +1,58 @@
 ﻿@page "/"
+@inject IDashboard DashboardService
 
 <PageTitle>Dashboard</PageTitle>
 
 <h1>Dashboard</h1>
 
-<div class="dashboard-summary">
-    <div class="total-value">
-        <h2>Total Value</h2>
-    </div>
-</div>
+<MudGrid Spacing="@spacing">
+    <MudItem xs="4">
+        <MudPaper Class="pa-4" Height="140px">
+            <MudText Typo="Typo.subtitle1">Total Value</MudText>
+            @if (summary is null)
+            {
+                <MudText Typo="Typo.h5">Loading ...</MudText>
+            } else
+            {
+                <MudText Typo="Typo.h5">@summary.totalValue.ToString("C")</MudText>
+            }
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="4">
+        <MudPaper Class="pa-4" Height="140px">
+            <MudText Typo="Typo.subtitle1">Total Portfolios</MudText>
+            @if (summary is null)
+            {
+                <MudText Typo="Typo.h5">Loading ...</MudText>
+            }
+            else
+            {
+                <MudText Typo="Typo.h5">@summary.totalPortfolios</MudText>
+            }
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="4">
+        <MudPaper Class="pa-4" Height="140px">
+            <MudText Typo="Typo.subtitle1">Total Positions</MudText>
+            @if (summary is null)
+            {
+                <MudText Typo="Typo.h5">Loading ...</MudText>
+            }
+            else
+            {
+                <MudText Typo="Typo.h5">@summary.totalPositions</MudText>
+            }
+        </MudPaper>
+    </MudItem>
+</MudGrid>
 
 @code {
+    int spacing = 5;
 
+    private DashboardSummary? summary;
+
+    protected override async Task OnInitializedAsync()
+    {
+        summary = await DashboardService.GetSummaryAsync();
+    }
 }
