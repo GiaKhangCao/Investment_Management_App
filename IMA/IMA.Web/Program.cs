@@ -16,7 +16,7 @@ builder.Services.AddRazorComponents()
 // Add device-specific services used by the IMA.Shared project
 builder.Services.AddSingleton<IFormFactor, FormFactor>();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddDbContextFactory<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IPortfolioService, PortfolioService>();

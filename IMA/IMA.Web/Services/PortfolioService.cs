@@ -7,28 +7,34 @@ namespace IMA.Web.Services
 {
     public class PortfolioService : IPortfolioService
     {
-        private readonly AppDbContext _db;
-        public PortfolioService(AppDbContext db)
+        private readonly IDbContextFactory<AppDbContext> _dbFactory;
+
+        public PortfolioService(IDbContextFactory<AppDbContext> dbFactory)
         {
-            _db = db;
+            _dbFactory = dbFactory;
         }
 
-        public async Task<List<Portfolio>> GetAllAsync() =>
-            await _db.Portfolios.Include(p => p.investments).ToListAsync();
+        public async Task<List<Portfolio>> GetAllAsync()
+        {
+            await using var db = await _dbFactory.CreateDbContextAsync();
+            return await db.Portfolios.Include(p => p.investments).ToListAsync();
+        }
 
         public async Task AddAsync(Portfolio portfolio)
         {
-            _db.Portfolios.Add(portfolio);
-            await _db.SaveChangesAsync();
+            await using var db = await _dbFactory.CreateDbContextAsync();
+            db.Portfolios.Add(portfolio);
+            await db.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
         {
-            var portfolio = await _db.Portfolios.FindAsync(id);
+            await using var db = await _dbFactory.CreateDbContextAsync();
+            var portfolio = await db.Portfolios.FindAsync(id);
             if (portfolio != null)
             {
-                _db.Portfolios.Remove(portfolio);
-                await _db.SaveChangesAsync();
+                db.Portfolios.Remove(portfolio);
+                await db.SaveChangesAsync();
             }
         }
     }
