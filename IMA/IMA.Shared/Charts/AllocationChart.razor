@@ -2,7 +2,9 @@
 
 @if (allocation is null)
 {
-    <MudText>Loading ...</MudText>
+    <MudSkeleton />
+    <MudSkeleton Animation="Animation.False" />
+    <MudSkeleton Animation="Animation.Wave" />
 }
 else
 {

@@ -12,7 +12,9 @@
             <MudText Typo="Typo.subtitle1">Total Value</MudText>
             @if (summary is null)
             {
-                <MudText Typo="Typo.h5">Loading ...</MudText>
+                <MudSkeleton />
+                <MudSkeleton Animation="Animation.False" />
+                <MudSkeleton Animation="Animation.Wave" />
             } else
             {
                 <MudText Typo="Typo.h5">@summary.totalValue.ToString("C")</MudText>
@@ -24,7 +26,9 @@
             <MudText Typo="Typo.subtitle1">Total Portfolios</MudText>
             @if (summary is null)
             {
-                <MudText Typo="Typo.h5">Loading ...</MudText>
+                <MudSkeleton />
+                <MudSkeleton Animation="Animation.False" />
+                <MudSkeleton Animation="Animation.Wave" />
             }
             else
             {
@@ -37,7 +41,9 @@
             <MudText Typo="Typo.subtitle1">Total Positions</MudText>
             @if (summary is null)
             {
-                <MudText Typo="Typo.h5">Loading ...</MudText>
+                <MudSkeleton />
+                <MudSkeleton Animation="Animation.False" />
+                <MudSkeleton Animation="Animation.Wave" />
             }
             else
             {
