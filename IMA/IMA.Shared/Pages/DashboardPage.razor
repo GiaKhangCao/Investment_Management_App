@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using IMA.Shared.Charts
 @inject IDashboard DashboardService
 
 <PageTitle>Dashboard</PageTitle>
@@ -42,6 +43,12 @@
             {
                 <MudText Typo="Typo.h5">@summary.totalPositions</MudText>
             }
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12">
+        <MudPaper Class="pa-4" Height="140px">
+            <MudText Typo="Typo.subtitle1">Allocations</MudText>
+            <AllocationChart />
         </MudPaper>
     </MudItem>
 </MudGrid>

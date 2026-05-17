@@ -1,0 +1,26 @@
+﻿@inject IDashboard DashboardService
+
+@if (allocation is null)
+{
+    <MudText>Loading ...</MudText>
+}
+else
+{
+    <MudChart T="double" ChartType="ChartType.Pie" InputData="@inputData" InputLabels="@inputLabels"/>
+}
+
+@code {
+    private Allocation? allocation;
+    private double[] inputData = [];
+    private string[] inputLabels = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        allocation = await DashboardService.GetAllocation();
+        if (allocation is not null)
+        {
+            inputData = allocation.allocationByType.Values.Select(v => (double)v).ToArray();
+            inputLabels = allocation.allocationByType.Keys.ToArray();
+        }
+    }
+}
