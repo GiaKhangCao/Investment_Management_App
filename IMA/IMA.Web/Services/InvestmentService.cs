@@ -13,6 +13,29 @@ namespace IMA.Web.Services
         {
             _dbFactory = dbFactory;
         }
+        public async Task<List<Investment>> GetAllAsync()
+        {
+            await using var db = await _dbFactory.CreateDbContextAsync();
+            return await db.Investments
+                .Include(i => i.transactions)
+                .ToListAsync();
+        }
+        public async Task<List<Investment>> GetByType(string assetType)
+        {
+            await using var db = await _dbFactory.CreateDbContextAsync();
+            return await db.Investments
+                .Where(i => i.assetType == assetType)
+                .Include(i => i.transactions)
+                .ToListAsync();
+        }
+        public async Task<List<Investment>> GetByTicket(string ticket)
+        {
+            await using var db = await _dbFactory.CreateDbContextAsync();
+            return await db.Investments
+                .Where(i => i.ticket == ticket)
+                .Include(i => i.transactions)
+                .ToListAsync();
+        }
 
         public async Task<List<Investment>> GetByPortfolioAsync(int portfolioId)
         {
@@ -63,5 +86,6 @@ namespace IMA.Web.Services
             if (investment == null) return 0;
             return investment.quantity * investment.purchasePrice;
         }
+
     }
 }
