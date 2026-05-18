@@ -52,9 +52,9 @@
         </MudPaper>
     </MudItem>
     <MudItem xs="12">
-        <MudPaper Class="pa-4" Height="140px">
+        <MudPaper Class="pa-4">
             <MudText Typo="Typo.subtitle1">Allocations</MudText>
-            <AllocationChart />
+            <AllocationChart Allocation="@allocation" />
         </MudPaper>
     </MudItem>
 </MudGrid>
@@ -63,9 +63,11 @@
     int spacing = 5;
 
     private DashboardSummary? summary;
+    private Allocation? allocation;
 
     protected override async Task OnInitializedAsync()
     {
         summary = await DashboardService.GetSummaryAsync();
+        allocation = await DashboardService.GetAllocation();
     }
 }

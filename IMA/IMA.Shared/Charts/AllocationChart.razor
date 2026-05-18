@@ -1,24 +1,31 @@
-﻿@inject IDashboard DashboardService
-
-@if (allocation is null)
+﻿@if (allocation is null)
 {
     <MudSkeleton />
     <MudSkeleton Animation="Animation.False" />
     <MudSkeleton Animation="Animation.Wave" />
+} else if (inputData.Length == 0)
+{
+    <MudText Typo="Typo.h5">There is no assets</MudText>
 }
 else
 {
-    <MudChart T="double" ChartType="ChartType.Pie" InputData="@inputData" InputLabels="@inputLabels"/>
+    <div class="chart-container">
+        <MudChart @key="inputData.Length"
+                  ChartType="ChartType.Pie"
+                  ChartSeries="@inputData.AsChartDataSet()"
+                  ChartLabels="@inputLabels"
+                  Width="100%"
+                  Height="400px"/>
+    </div>
 }
 
 @code {
-    private Allocation? allocation;
+    [Parameter] public Allocation? allocation { get; set; }
     private double[] inputData = [];
     private string[] inputLabels = [];
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnParametersSet()
     {
-        allocation = await DashboardService.GetAllocation();
         if (allocation is not null)
         {
             inputData = allocation.allocationByType.Values.Select(v => (double)v).ToArray();
