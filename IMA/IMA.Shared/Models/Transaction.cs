@@ -1,4 +1,4 @@
-﻿namespace IMA.Web.Models
+﻿namespace IMA.Shared.Models
 {
     public class Transaction
     {

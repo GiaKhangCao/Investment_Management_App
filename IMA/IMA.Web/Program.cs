@@ -1,7 +1,7 @@
 using IMA.Shared.Services;
 using IMA.Web.Components;
 using IMA.Web.Data;
-using IMA.Web.Models;
+using IMA.Shared.Models;
 using IMA.Web.Services;
 using Microsoft.EntityFrameworkCore;
 using IMA.Shared.Interfaces;

@@ -1,4 +1,4 @@
-﻿using IMA.Web.Models;
+﻿using IMA.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMA.Web.Data

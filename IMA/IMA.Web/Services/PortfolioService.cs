@@ -1,6 +1,6 @@
 ﻿using IMA.Shared.Interfaces;
 using IMA.Web.Data;
-using IMA.Web.Models;
+using IMA.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMA.Web.Services
