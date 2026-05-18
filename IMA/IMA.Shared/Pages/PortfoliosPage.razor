@@ -6,18 +6,16 @@
 
 <h1>Portfolios</h1>
 
-<MudPaper>
-    @if (portfolio == null)
-    {
-    <p>Loading...</p>
-    }
-    else if (portfolio.Count == 0)
+<MudPaper Class="pa-4" Elevation="0">
+    @if (portfolio?.Count == 0)
     {
         <MudText Typo="Typo.h5">No Portfolios Found</MudText>
     }
     else
     {
-        <MudTable Items="@portfolio" FixedHeader="true" Hover="true" Striped="true">
+        <MudTable Items="@(portfolio ?? Enumerable.Range(1, 5).Select(_ => new Portfolio()).ToList())"
+                  Loading="@(portfolio == null)"
+                  FixedHeader="true" Hover="true" Striped="true">
             <HeaderContent>
                 <MudTh>Name</MudTh>
                 <MudTh>Owner</MudTh>
@@ -26,11 +24,22 @@
                 <MudTh>Created</MudTh>
             </HeaderContent>
             <RowTemplate>
-                <MudTd DataLabel="Name">@context.name</MudTd>
-                <MudTd DataLabel="Owner">@context.owner</MudTd>
-                <MudTd DataLabel="Investments">@context.investments.Count().ToString("N2")</MudTd>
-                <MudTd DataLabel="Total Value">@context.investments.Sum(i => i.quantity * i.purchasePrice)</MudTd>
-                <MudTd DataLabel="Created">@context.createdAt.ToString("MMM dd, yyyy")</MudTd>
+                @if (portfolio == null)
+                {
+                    <MudTd><MudSkeleton /></MudTd>
+                    <MudTd><MudSkeleton /></MudTd>
+                    <MudTd><MudSkeleton /></MudTd>
+                    <MudTd><MudSkeleton /></MudTd>
+                    <MudTd><MudSkeleton /></MudTd>
+                }
+                else
+                {
+                    <MudTd DataLabel="Name">@context.name</MudTd>
+                    <MudTd DataLabel="Owner">@context.owner</MudTd>
+                    <MudTd DataLabel="Investments">@context.investments.Count().ToString("N2")</MudTd>
+                    <MudTd DataLabel="Total Value">@context.investments.Sum(i => i.quantity * i.purchasePrice)</MudTd>
+                    <MudTd DataLabel="Created">@context.createdAt.ToString("MMM dd, yyyy")</MudTd>
+                }
             </RowTemplate>
             <PagerContent>
                 <MudTablePager PageSizeOptions="new int[] { 50, 100 }" />
