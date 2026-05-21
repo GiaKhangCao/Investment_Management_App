@@ -1,0 +1,52 @@
+﻿@using IMA.Shared.Models
+@using MudBlazor
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">Add Portfolio</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudGrid>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="name" Label="Portfolio name"
+                              Placeholder="e.g. Growth Portfolio"
+                              Variant="Variant.Outlined" Required="true" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="owner" Label="Owner"
+                              Placeholder="e.g. John Doe"
+                              Variant="Variant.Outlined" Required="true" />
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.Check"
+                   OnClick="Submit" Disabled="@(!isValid)">
+            Save portfolio
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
+
+    private string name = string.Empty;
+    private string owner = string.Empty;
+
+    private bool isValid => !string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(owner);
+
+    private void Cancel() => MudDialog?.Cancel();
+
+    private void Submit()
+    {
+        var portfolio = new Portfolio
+            {
+                name = name,
+                owner = owner,
+                createdAt = DateTime.UtcNow
+            };
+        MudDialog?.Close(DialogResult.Ok(portfolio));
+    }
+}

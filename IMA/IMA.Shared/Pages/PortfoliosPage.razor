@@ -1,12 +1,13 @@
 ﻿@page "/portfolios"
 @using IMA.Shared.Models
 @inject IPortfolioService PortfolioService
+@inject IDialogService DialogService
 
 <PageTitle>Portfolios</PageTitle>
 
 <div class="site-header">
     <MudText Typo="Typo.h4">Portfolios</MudText>
-    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add">Add Portfolio</MudButton>
+    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="OpenAddDialog">Add Portfolio</MudButton>
 </div>
 
 <MudPaper Class="pa-4" Elevation="0">
@@ -18,7 +19,7 @@
     {
         <MudTable Items="@(portfolio ?? Enumerable.Range(1, 5).Select(_ => new Portfolio()).ToList())"
                   Loading="@(portfolio == null)"
-                  FixedHeader="true" Hover="true" Striped="true">
+                  FixedHeader="true" Hover="true" Striped="true" MultiSelection="true">
             <HeaderContent>
                 <MudTh>Name</MudTh>
                 <MudTh>Owner</MudTh>
@@ -56,5 +57,17 @@
     protected override async Task OnInitializedAsync()
     {
         portfolio = await PortfolioService.GetAllAsync();
+    }
+
+    private async Task OpenAddDialog()
+    {
+        var dialog = await DialogService.ShowAsync<AddPortfolioDialog>("Add Portfolio");
+        var result = await dialog.Result;
+
+        if (!result.Canceled && result.Data is Portfolio newPortfolio)
+        {
+            await PortfolioService.AddAsync(newPortfolio);
+            portfolio = await PortfolioService.GetAllAsync();
+        }
     }
 }
