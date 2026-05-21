@@ -7,7 +7,15 @@
 
 <div class="site-header">
     <MudText Typo="Typo.h4">Portfolios</MudText>
-    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="OpenAddDialog">Add Portfolio</MudButton>
+    <div class="d-flex gap-2">
+        @if (selectedPortfolios.Count > 0)
+        {
+            <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" OnClick="DeleteSelected">
+                Delete (@selectedPortfolios.Count)
+            </MudButton>
+        }
+        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="OpenAddDialog">Add Portfolio</MudButton>
+    </div>
 </div>
 
 <MudPaper Class="pa-4" Elevation="0">
@@ -19,7 +27,8 @@
     {
         <MudTable Items="@(portfolio ?? Enumerable.Range(1, 5).Select(_ => new Portfolio()).ToList())"
                   Loading="@(portfolio == null)"
-                  FixedHeader="true" Hover="true" Striped="true" MultiSelection="true">
+                  FixedHeader="true" Hover="true" Striped="true" MultiSelection="true"
+                  @bind-SelectedItems="selectedPortfolios">
             <HeaderContent>
                 <MudTh>Name</MudTh>
                 <MudTh>Owner</MudTh>
@@ -53,9 +62,19 @@
 
     @code {
     private List<Portfolio>? portfolio;
+    private HashSet<Portfolio> selectedPortfolios = new();
 
     protected override async Task OnInitializedAsync()
     {
+        portfolio = await PortfolioService.GetAllAsync();
+    }
+
+    private async Task DeleteSelected()
+    {
+        foreach (var p in selectedPortfolios)
+            await PortfolioService.DeleteAsync(p.id);
+
+        selectedPortfolios.Clear();
         portfolio = await PortfolioService.GetAllAsync();
     }
 
