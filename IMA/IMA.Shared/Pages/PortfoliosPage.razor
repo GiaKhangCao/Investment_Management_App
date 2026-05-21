@@ -4,7 +4,10 @@
 
 <PageTitle>Portfolios</PageTitle>
 
-<h1>Portfolios</h1>
+<div class="site-header">
+    <MudText Typo="Typo.h4">Portfolios</MudText>
+    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add">Add Portfolio</MudButton>
+</div>
 
 <MudPaper Class="pa-4" Elevation="0">
     @if (portfolio?.Count == 0)
