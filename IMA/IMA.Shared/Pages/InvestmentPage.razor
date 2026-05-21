@@ -1,9 +1,59 @@
 ﻿@page "/investments"
+@inject IInvestmentService InvestmentService
 
 <PageTitle>Investments</PageTitle>
 
-<h3>Invesments</h3>
+<h1>Invesments</h1>
 
-@code {
+<MudPaper Class="pa-4" Elevation="0">
+    @if (investments?.Count == 0)
+    {
+        <MudText Typo="Typo.h5">No Investments Found</MudText>
+    } else
+    {
+        <MudTable Items="@(investments ?? Enumerable.Range(1, 5).Select(_ => new Investment()).ToList())"
+                Loading="@(investments == null)"
+                FixedHeader="true" Striped="true" Hover="true">
+            <HeaderContent>
+                <MudTh>Ticket</MudTh>
+                <MudTh>Type</MudTh>
+                <MudTh>Portfolio</MudTh>
+                <MudTh>QTY</MudTh>
+                <MudTh>Purchase Price</MudTh>
+                <MudTh>Value</MudTh>
+                <MudTh>Date</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                @if (investments == null)
+                {
+                    <MudTd><MudSkeleton /></MudTd>
+                    <MudTd><MudSkeleton /></MudTd>
+                    <MudTd><MudSkeleton /></MudTd>
+                    <MudTd><MudSkeleton /></MudTd>
+                    <MudTd><MudSkeleton /></MudTd>
+                } else
+                {
+                    <MudTd DataLabel="Ticket">@context.ticket</MudTd>
+                    <MudTd DataLabel="Type">@context.assetType</MudTd>
+                    <MudTd DataLabel="Portfolio">@context.porfolio?.name</MudTd>
+                    <MudTd DataLabel="QTY">@context.quantity</MudTd>
+                    <MudTd DataLabel="Purchase Price">@context.purchasePrice</MudTd>
+                    <MudTd DataLabel="Value">@(context.purchasePrice * context.quantity)</MudTd>
+                    <MudTd DataLabel="Date">@context.purchaseDate</MudTd>
+                }
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager PageSizeOptions="new int[] { 10, 50, 100}" />
+            </PagerContent>
+        </MudTable>
+    }
+</MudPaper>
 
+    @code {
+    private List<Investment>? investments;
+
+    protected override async Task OnInitializedAsync()
+    {
+        investments = await InvestmentService.GetAllAsync();
+    }
 }

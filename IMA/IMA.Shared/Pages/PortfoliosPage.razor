@@ -31,8 +31,7 @@
                     <MudTd><MudSkeleton /></MudTd>
                     <MudTd><MudSkeleton /></MudTd>
                     <MudTd><MudSkeleton /></MudTd>
-                }
-                else
+                } else
                 {
                     <MudTd DataLabel="Name">@context.name</MudTd>
                     <MudTd DataLabel="Owner">@context.owner</MudTd>
@@ -42,7 +41,7 @@
                 }
             </RowTemplate>
             <PagerContent>
-                <MudTablePager PageSizeOptions="new int[] { 50, 100 }" />
+                <MudTablePager PageSizeOptions="new int[] { 10, 50 , 100 }" />
             </PagerContent>
         </MudTable>
     }
