@@ -19,7 +19,7 @@ namespace IMA.Web.Services
             await using var db = await _dbFactory.CreateDbContextAsync();
 
             var investments = await db.Investments
-                .Include(i => i.porfolio)
+                .Include(i => i.portfolio)
                 .ToListAsync();
 
             var totalValue = investments.Sum(i => i.quantity * i.purchasePrice);

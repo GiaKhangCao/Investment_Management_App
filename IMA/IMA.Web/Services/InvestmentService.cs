@@ -17,6 +17,7 @@ namespace IMA.Web.Services
         {
             await using var db = await _dbFactory.CreateDbContextAsync();
             return await db.Investments
+                .Include(i => i.portfolio)
                 .Include(i => i.transactions)
                 .ToListAsync();
         }
