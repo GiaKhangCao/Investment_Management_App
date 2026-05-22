@@ -28,11 +28,11 @@ namespace IMA.Web.Services
                 .Include(i => i.transactions)
                 .ToListAsync();
         }
-        public async Task<List<Investment>> GetByTicket(string ticket)
+        public async Task<List<Investment>> GetByTicker(string ticker)
         {
             await using var db = await _dbFactory.CreateDbContextAsync();
             return await db.Investments
-                .Where(i => i.ticket == ticket)
+                .Where(i => i.ticker == ticker)
                 .Include(i => i.transactions)
                 .ToListAsync();
         }

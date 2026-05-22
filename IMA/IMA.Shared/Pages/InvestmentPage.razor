@@ -18,7 +18,7 @@
                 Loading="@(investments == null)"
                 FixedHeader="true" Striped="true" Hover="true">
             <HeaderContent>
-                <MudTh>Ticket</MudTh>
+                <MudTh>Ticker</MudTh>
                 <MudTh>Type</MudTh>
                 <MudTh>Portfolio</MudTh>
                 <MudTh>QTY</MudTh>
@@ -36,7 +36,7 @@
                     <MudTd><MudSkeleton /></MudTd>
                 } else
                 {
-                    <MudTd DataLabel="Ticket">@context.ticket</MudTd>
+                    <MudTd DataLabel="Ticket">@context.ticker</MudTd>
                     <MudTd DataLabel="Type">@context.assetType</MudTd>
                     <MudTd DataLabel="Portfolio">@context.porfolio?.name</MudTd>
                     <MudTd DataLabel="QTY">@context.quantity</MudTd>
