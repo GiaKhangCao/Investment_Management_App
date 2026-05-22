@@ -58,6 +58,7 @@ namespace IMA.Web.Services
         public async Task AddAsync(Investment investment)
         {
             await using var db = await _dbFactory.CreateDbContextAsync();
+            investment.portfolio = null;
             db.Investments.Add(investment);
             await db.SaveChangesAsync();
         }

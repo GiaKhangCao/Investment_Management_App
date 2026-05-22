@@ -1,11 +1,12 @@
 ﻿@page "/investments"
 @inject IInvestmentService InvestmentService
+@inject IDialogService DialogService
 
 <PageTitle>Investments</PageTitle>
 
 <div class="site-header">
     <MudText Typo="Typo.h4">Invesments</MudText>
-    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add">Add Investements</MudButton>
+    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="OpenAddDialog">Add Investements</MudButton>
 </div>
 
 <MudPaper Class="pa-4" Elevation="0">
@@ -58,5 +59,17 @@
     protected override async Task OnInitializedAsync()
     {
         investments = await InvestmentService.GetAllAsync();
+    }
+
+    private async Task OpenAddDialog()
+    {
+        var dialog = await DialogService.ShowAsync<AddInvestmentDialog>("Add Investment");
+        var result = await dialog.Result;
+
+        if (!result.Canceled && result.Data is Investment newInvestmetn)
+        {
+            await InvestmentService.AddAsync(newInvestmetn);
+            investments = await InvestmentService.GetAllAsync();
+        }
     }
 }

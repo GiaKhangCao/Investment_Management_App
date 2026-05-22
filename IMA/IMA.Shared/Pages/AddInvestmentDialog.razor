@@ -1,0 +1,98 @@
+@using IMA.Shared.Models
+@using MudBlazor
+@inject IPortfolioService PortfolioService
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">Add Investment</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudGrid>
+            <MudItem xs="12" sm="6">
+                <MudTextField @bind-Value="ticker" Label="Ticker"
+                              Placeholder="e.g. AAPL"
+                              Variant="Variant.Outlined" Required="true" />
+            </MudItem>
+            <MudItem xs="12" sm="6">
+                <MudSelect @bind-Value="assetType" Label="Asset Type"
+                           Variant="Variant.Outlined" Required="true">
+                    <MudSelectItem Value="@("Stock")">Stock</MudSelectItem>
+                    <MudSelectItem Value="@("ETF")">ETF</MudSelectItem>
+                    <MudSelectItem Value="@("Crypto")">Crypto</MudSelectItem>
+                    <MudSelectItem Value="@("Bond")">Bond</MudSelectItem>
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12" sm="6">
+                <MudNumericField @bind-Value="quantity" Label="Quantity"
+                                 Variant="Variant.Outlined" Min="0" Required="true" />
+            </MudItem>
+            <MudItem xs="12" sm="6">
+                <MudNumericField @bind-Value="purchasePrice" Label="Purchase Price"
+                                 Variant="Variant.Outlined" Min="0" Required="true"
+                                 Adornment="Adornment.Start" AdornmentText="$" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudSelect @bind-Value="portfolio" Label="Portfolio"
+                           Variant="Variant.Outlined" Required="true"
+                           ToStringFunc="@(p => p?.name ?? string.Empty)">
+                    @foreach (var p in portfolios)
+                    {
+                        <MudSelectItem Value="@p">@p.name</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12">
+                <MudDatePicker @bind-Date="purchaseDateNullable" Label="Purchase Date"
+                               Variant="Variant.Outlined" />
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.Check"
+                   OnClick="Submit" Disabled="@(!isValid)">
+            Save investment
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
+
+    private string ticker = string.Empty;
+    private string assetType = string.Empty;
+    private decimal quantity = 0;
+    private decimal purchasePrice = 0;
+    private Portfolio? portfolio;
+    private DateTime? purchaseDateNullable = DateTime.UtcNow.Date;
+    private List<Portfolio> portfolios = new();
+
+    private bool isValid => !string.IsNullOrWhiteSpace(ticker)
+                         && !string.IsNullOrWhiteSpace(assetType)
+                         && quantity > 0
+                         && purchasePrice > 0
+                         && portfolio is not null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        portfolios = await PortfolioService.GetAllAsync();
+    }
+
+    private void Cancel() => MudDialog?.Cancel();
+
+    private void Submit()
+    {
+        var investment = new Investment
+        {
+            ticker = ticker,
+            assetType = assetType,
+            quantity = quantity,
+            purchasePrice = purchasePrice,
+            purchaseDate = DateTime.SpecifyKind(purchaseDateNullable ?? DateTime.Today, DateTimeKind.Utc),
+            portfolio = portfolio,
+            portfolioId = portfolio!.id,
+        };
+        MudDialog?.Close(DialogResult.Ok(investment));
+    }
+}
